@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qwq么么酱的服务器awa</title>
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS变量定义 */
+        :root {
+            /* 亮色主题 */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --accent: #4CAF50;
+            --accent-hover: #45a049;
+            --border: #e0e0e0;
+            --card-bg: #ffffff;
+        }
+
+        /* 暗色主题 */
+        [data-theme="dark"] {
+            --bg-primary: #121212;
+            --bg-secondary: #1e1e1e;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent: #4CAF50;
+            --accent-hover: #45a049;
+            --border: #333333;
+            --card-bg: #1e1e1e;
+        }
+
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* 导航栏 */
+        header {
+            background-color: var(--bg-secondary);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .server-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* 主页横幅 */
+        .hero {
+            background-color: var(--bg-secondary);
+            padding: 4rem 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        /* 服务器信息 */
+        .server-info {
+            padding: 3rem 0;
+            background-color: var(--bg-primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        /* 服务器地址 */
+        .server-addresses {
+            padding: 3rem 0;
+            background-color: var(--bg-secondary);
+        }
+
+        .address-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .address-card {
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .address-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .address-card h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .address {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background-color: var(--bg-primary);
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .address-text {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* 整合包下载 */
+        .modpack {
+            padding: 3rem 0;
+            background-color: var(--bg-primary);
+        }
+
+        .download-section {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border);
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .download-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* 页脚 */
+        footer {
+            background-color: var(--bg-secondary);
+            padding: 2rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .info-grid,
+            .address-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="server-name">qwq么么酱的服务器awa</div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 主页横幅 -->
+    <section class="hero">
+        <div class="container">
+            <h1>qwq么么酱的服务器awa</h1>
+            <p>(≡v≡)</p>
+        </div>
+    </section>
+
+    <!-- 服务器信息 -->
+    <section class="server-info">
+        <div class="container">
+            <h2>服务器信息</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>服务器版本</h3>
+                    <p>1.20.4-Fabric</p>
+                    <p>FabricAPI ≥ 0.16.10</p>
+                </div>
+                <div class="info-card">
+                    <h3>服务器注意</h3>
+                    <p>使用了stp插件</p>
+                    <p>使用"!!stp"进行传送</p>
+                </div>
+                <div class="info-card">
+                    <h3>服务器特色</h3>
+                    <p>稳定运行，<small><del>畜生</del></small>友好的群友</p>
+                    <p>多条线路，尽可能提供良好的游戏环境</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务器地址 -->
+    <section class="server-addresses">
+        <div class="container">
+            <h2>服务器地址</h2>
+            <div class="address-grid">
+                <div class="address-card">
+                    <h3>杭州节点</h3>
+                    <div class="address">
+                        <span class="address-text">cn-zj-hz-1.lcf.im:34907</span>
+                        <button class="copy-btn" onclick="copyAddress('cn-zj-hz-1.lcf.im:34907')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="address-card">
+                    <h3>宁波节点</h3>
+                    <div class="address">
+                        <span class="address-text">cn-zj-nb-1.lcf.im:37190</span>
+                        <button class="copy-btn" onclick="copyAddress('cn-zj-nb-1.lcf.im:37190')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="address-card">
+                    <h3>娄底节点</h3>
+                    <div class="address">
+                        <span class="address-text">cn-hn-ld-1.lcf.im:24151</span>
+                        <button class="copy-btn" onclick="copyAddress('cn-hn-ld-1.lcf.im:24151')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="address-card">
+                    <h3>武汉节点</h3>
+                    <div class="address">
+                        <span class="address-text">cn-hb-wh-1.lcf.im:36587</span>
+                        <button class="copy-btn" onclick="copyAddress('cn-hb-wh-1.lcf.im:36587')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="address-card">
+                    <h3>备用通道1</h3>
+                    <div class="address">
+                        <span class="address-text">57c42474b0ea.ofalias.net:54658</span>
+                        <button class="copy-btn" onclick="copyAddress('57c42474b0ea.ofalias.net:54658')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="address-card">
+                    <h3>备用通道2</h3>
+                    <div class="address">
+                        <span class="address-text">7e526c6c1d80.ofalias.net:51597</span>
+                        <button class="copy-btn" onclick="copyAddress('7e526c6c1d80.ofalias.net:51597')">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 整合包下载 -->
+    <section class="modpack">
+        <div class="container">
+            <h2>服务器整合包</h2>
+            <div class="download-section">
+                <p>点击下方链接下载服务器整合包，包含所有必要的模组和配置</p>
+                <a href="https://github.com/508364/MC-Server/blob/main/MMJ.zip" class="download-btn" target="_blank">
+                    <i class="fas fa-download"></i> <strong>github</strong>直接下载
+                </a>
+                <a href="https://gh-proxy.com/https://github.com/508364/MC-Server/blob/main/MMJ.zip" class="download-btn" target="_blank">
+                    <i class="fas fa-bolt"></i> <strong>gh-proxy</strong>加速下载
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p> ~[awa]~ </p>
+        </div>
+    </footer>
+
+    <script>
+        // 主题切换功能
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // 检查本地存储中的主题设置
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            const icon = themeToggle.querySelector('i');
+            if (theme === 'dark') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        // 复制地址功能
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                // 显示复制成功提示
+                const btn = event.target.closest('.copy-btn');
+                const originalIcon = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    btn.innerHTML = originalIcon;
+                }, 1000);
+            }).catch(err => {
+                console.error('复制失败:', err);
+            });
+        }
+    </script>
+</body>
+</html>
