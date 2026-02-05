@@ -148,6 +148,7 @@ nav {
     -webkit-backdrop-filter: blur(10px);
     z-index: 2;
     transition: all 0.5s ease;
+    pointer-events: none;
 }
 
 [data-theme="dark"] .hero::before {
@@ -359,6 +360,50 @@ nav {
 
 .download-btn:hover {
     background-color: var(--accent-hover);
+}
+
+.qq-btn {
+    display: inline-block;
+    background-color: var(--accent);
+    color: white;
+    padding: 0.3rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.qq-btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.qq-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qq-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.qq-btn:hover::before {
+    left: 100%;
 }
 
 /* 页脚 */
