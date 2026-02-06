@@ -920,8 +920,67 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
     <!-- 图片预览模态框 -->
     <div id="image-modal" class="modal">
         <span class="close">&times;</span>
+        <button class="modal-prev">&lt;</button>
         <img class="modal-content" id="modal-image">
+        <button class="modal-next">&gt;</button>
         <div class="caption"></div>
+    </div>
+
+    <!-- Cookie提示模态框 -->
+    <div id="cookie-modal" class="modal cookie-modal">
+        <div class="cookie-content">
+            <h2>网站想使用您的Cookie</h2>
+            <p>本网站使用Cookie来缓存服务器图片，提高加载速度和用户体验。</p>
+            
+            <p><strong>允许Cookie使用：</strong></p>
+            <table class="cookie-comparison">
+                <thead>
+                    <tr>
+                        <th>功能/权益</th>
+                        <th>允许使用Cookie</th>
+                        <th>拒绝使用Cookie</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>图片加载速度</td>
+                        <td>更快</td>
+                        <td>较慢</td>
+                    </tr>
+                    <tr>
+                        <td>页面浏览体验</td>
+                        <td>更流畅</td>
+                        <td>可能卡顿</td>
+                    </tr>
+                    <tr>
+                        <td>网络流量消耗</td>
+                        <td>更少</td>
+                        <td>更多</td>
+                    </tr>
+                    <tr>
+                        <td>背景图片预加载</td>
+                        <td>支持</td>
+                        <td>不支持</td>
+                    </tr>
+                    <tr>
+                        <td>图片更新检测</td>
+                        <td>智能检测</td>
+                        <td>每次重新检查</td>
+                    </tr>
+                    <tr>
+                        <td>服务器带宽使用</td>
+                        <td>更少</td>
+                        <td>更多</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>如果您同意使用Cookie，网站将能够提供更好的体验。您也可以选择拒绝，网站仍然可以正常使用，但图片加载速度可能会较慢。</p>
+            <div class="cookie-buttons">
+                <button id="cookie-accept" class="cookie-btn accept">同意</button>
+                <button id="cookie-reject" class="cookie-btn reject">拒绝</button>
+            </div>
+        </div>
     </div>
 
     <!-- 服务器信息 -->
@@ -1037,7 +1096,12 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
     <!-- 页脚 -->
     <footer>
         <div class="container">
-            <p> ~[awa]~ </p>
+            <div class="footer-content">
+                <p> ~[awa]~ </p>
+                <button id="cookie-settings" class="cookie-settings-btn">
+                    <i class="fas fa-cookie"></i> Cookie设置
+                </button>
+            </div>
         </div>
     </footer>
 
