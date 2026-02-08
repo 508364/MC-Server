@@ -258,6 +258,18 @@ nav {
     right: 20px;
 }
 
+.modal-prev::before {
+    content: '\f060';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+.modal-next::before {
+    content: '\f061';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
 .modal-prev:hover,
 .modal-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
@@ -271,7 +283,13 @@ nav {
         width: 40px;
         height: 40px;
         font-size: 20px;
+    }
+    
+    .modal-prev {
         left: 10px;
+    }
+    
+    .modal-next {
         right: 10px;
     }
 }
@@ -380,6 +398,138 @@ nav {
 }
 
 .cookie-btn.reject:hover {
+    background-color: var(--border);
+    transform: translateY(-2px);
+}
+
+/* QQ群信息模态框样式 */
+.qq-modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1001;
+}
+
+.qq-content {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.qq-content h2 {
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qq-content h2 i {
+    font-size: 1.2rem;
+    color: #12B7F5;
+}
+
+#qq-group-info {
+    margin-bottom: 2rem;
+}
+
+#qq-group-info .loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+.qq-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.qq-group-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qq-group-avatar img {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+}
+
+.qq-group-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.qq-group-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.qq-group-item i {
+    font-size: 1.1rem;
+    color: var(--accent);
+    min-width: 20px;
+}
+
+.qq-group-item .label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    min-width: 80px;
+}
+
+.qq-group-item .value {
+    color: var(--text-primary);
+}
+
+.qq-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.qq-btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.qq-btn.accept {
+    background-color: var(--accent);
+    color: white;
+}
+
+.qq-btn.accept:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.qq-btn.reject {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.qq-btn.reject:hover {
     background-color: var(--border);
     transform: translateY(-2px);
 }
@@ -630,6 +780,7 @@ footer p {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    /* 主页横幅 */
     .hero h1 {
         font-size: 2rem;
     }
@@ -638,17 +789,183 @@ footer p {
         font-size: 1rem;
     }
 
+    .hero {
+        padding: 4rem 0;
+        min-height: 400px;
+    }
+
+    /* 容器内边距 */
     .container {
         padding: 0 1rem;
     }
 
-    .info-grid,
-    .address-grid,
-    .gallery-grid {
-        grid-template-columns: 1fr;
+    /* 导航栏 */
+    .server-name {
+        font-size: 1.2rem;
     }
 
-    .gallery-image {
-        height: 150px;
+    .theme-toggle {
+        font-size: 1rem;
+        padding: 0.3rem;
+    }
+
+    /* 网格布局 */
+    .info-grid,
+    .address-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    /* 信息卡片 */
+    .info-card,
+    .address-card {
+        padding: 1.2rem;
+    }
+
+    /* 服务器地址 */
+    .address {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .address-text {
+        font-size: 0.8rem;
+        word-break: break-all;
+        width: 100%;
+    }
+
+    .copy-btn {
+        align-self: flex-end;
+    }
+
+    /* 下载按钮 */
+    .download-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        display: block;
+        margin: 0.5rem auto;
+        width: fit-content;
+    }
+
+    /* QQ群按钮 */
+    .qq-btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    /* QQ群信息模态框 */
+    .qq-content {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .qq-info-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .qq-group-avatar img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .qq-group-details {
+        align-items: center;
+    }
+
+    .qq-group-item {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.3rem;
+        text-align: center;
+    }
+
+    .qq-group-item .label {
+        min-width: auto;
+        font-size: 0.9rem;
+    }
+
+    .qq-group-item .value {
+        font-size: 0.9rem;
+    }
+
+    /* Cookie模态框 */
+    .cookie-content {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .cookie-buttons {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .cookie-btn {
+        width: 100%;
+        text-align: center;
+        padding: 0.8rem;
+    }
+
+    /* 页脚 */
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    footer p {
+        font-size: 14px;
+    }
+
+    /* Cookie设置按钮 */
+    .cookie-settings-btn {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    /* 整合包下载 */
+    .modpack {
+        padding: 2rem 0;
+    }
+
+    .download-section {
+        padding: 1.5rem;
+    }
+
+    /* 服务器信息和地址 */
+    .server-info,
+    .server-addresses {
+        padding: 2rem 0;
+    }
+
+    /* 背景图片画廊 */
+    .background-image {
+        object-fit: cover;
+    }
+
+    /* 图片预览模态框 */
+    .modal-content {
+        max-width: 98%;
+        max-height: 90%;
+    }
+
+    .close {
+        width: 35px;
+        height: 35px;
+        font-size: 24px;
+        top: 5px;
+        right: 10px;
+    }
+
+    /* 模态框导航按钮 */
+    .modal-prev,
+    .modal-next {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        left: 10px;
+        right: 10px;
     }
 }

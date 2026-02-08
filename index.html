@@ -983,6 +983,24 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
         </div>
     </div>
 
+    <!-- QQ群信息模态框 -->
+    <div id="qq-modal" class="modal qq-modal">
+        <div class="qq-content">
+            <h2><i class="fab fa-qq"></i> QQ群信息</h2>
+            <div id="qq-group-info">
+                <div class="loading">加载中...</div>
+            </div>
+            <div class="qq-buttons">
+                <button id="qq-join" class="qq-btn accept">
+                    <i class="fas fa-plus"></i> 加入群聊
+                </button>
+                <button id="qq-close" class="qq-btn reject">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- 服务器信息 -->
     <section class="server-info">
         <div class="container">
@@ -1000,15 +1018,14 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
                 </div>
                 <div class="info-card">
                     <h3>服务器群聊</h3>
-                    <p>服务器QQ群:949639146</p>
-                    <a href="https://qm.qq.com/q/OCroL7bkqI" class="qq-btn" target="_blank">
+                    <button id="qq-group-btn" class="qq-btn">
                     <i class="fab fa-qq"></i> 点击添加群聊
-                    </a>
+                    </button>
                 </div>
                 <div class="info-card">
                     <h3>服务器特色</h3>
                     <p>稳定运行，<small><del>畜生</del></small>友好的群友</p>
-                    <p>多条线路，尽可能提供良好的游戏环境</p>
+                    <p>这里只有<small><del>畜生</del></small>友好的群友</p>
                 </div>
             </div>
         </div>
