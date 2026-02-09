@@ -144,6 +144,13 @@ let qqCloseBtn;
 let qqGroupInfo;
 let qqGroupData = null;
 
+// 榜单相关功能
+let rankingModal;
+let rankingBtn;
+let rankingCloseBtn;
+let rankingRefreshBtn;
+let rankingContent;
+
 // 初始化DOM元素
 function initDomElements() {
     console.log('初始化DOM元素');
@@ -158,6 +165,13 @@ function initDomElements() {
     qqCloseBtn = document.getElementById('qq-close');
     qqGroupInfo = document.getElementById('qq-group-info');
     
+    // 初始化榜单模态框元素
+    rankingModal = document.getElementById('ranking-modal');
+    rankingBtn = document.getElementById('ranking-btn');
+    rankingCloseBtn = document.getElementById('ranking-close');
+    rankingRefreshBtn = document.getElementById('ranking-refresh');
+    rankingContent = document.getElementById('ranking-content');
+    
     console.log('DOM元素初始化结果:', {
         cookieModal: !!cookieModal,
         cookieAcceptBtn: !!cookieAcceptBtn,
@@ -166,7 +180,12 @@ function initDomElements() {
         qqGroupBtn: !!qqGroupBtn,
         qqJoinBtn: !!qqJoinBtn,
         qqCloseBtn: !!qqCloseBtn,
-        qqGroupInfo: !!qqGroupInfo
+        qqGroupInfo: !!qqGroupInfo,
+        rankingModal: !!rankingModal,
+        rankingBtn: !!rankingBtn,
+        rankingCloseBtn: !!rankingCloseBtn,
+        rankingRefreshBtn: !!rankingRefreshBtn,
+        rankingContent: !!rankingContent
     });
 }
 
@@ -726,6 +745,88 @@ function getQQGroupInfo() {
     }
 }
 
+// 打开榜单模态框
+function openRankingModal() {
+    console.log('打开榜单模态框');
+    if (rankingModal) {
+        rankingModal.style.display = 'flex';
+        // 加载榜单内容
+        loadRankingContent();
+    }
+}
+
+// 关闭榜单模态框
+function closeRankingModal() {
+    console.log('关闭榜单模态框');
+    if (rankingModal) {
+        rankingModal.style.display = 'none';
+    }
+}
+
+// 加载榜单内容
+function loadRankingContent() {
+    console.log('加载榜单内容');
+    if (rankingContent) {
+        // 显示加载状态
+        rankingContent.innerHTML = '<div class="loading">正在加载榜单...</div>';
+        
+        // 读取ranking.md文件，添加时间戳避免缓存
+        const timestamp = new Date().getTime();
+        fetch(`ranking.md?_=${timestamp}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('网络响应失败: ' + response.status);
+                }
+                return response.text();
+            })
+            .then(markdown => {
+                console.log('获取到最新的markdown数据，开始渲染');
+                // 使用marked.js渲染markdown内容
+                const html = marked.parse(markdown);
+                rankingContent.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('加载榜单失败:', error);
+                rankingContent.innerHTML = '<div class="error">加载榜单失败，请稍后再试</div>';
+            });
+    }
+}
+
+// 初始化榜单功能
+function initRanking() {
+    if (rankingBtn) {
+        console.log('初始化榜单按钮事件');
+        
+        // 添加点击事件，打开模态框
+        rankingBtn.addEventListener('click', function() {
+            console.log('用户点击了榜单按钮');
+            openRankingModal();
+        });
+        
+        // 初始化模态框关闭按钮事件
+        if (rankingCloseBtn) {
+            rankingCloseBtn.addEventListener('click', closeRankingModal);
+        }
+        
+        // 初始化刷新按钮事件
+        if (rankingRefreshBtn) {
+            rankingRefreshBtn.addEventListener('click', function() {
+                console.log('用户点击了刷新按钮');
+                loadRankingContent();
+            });
+        }
+        
+        // 点击模态框外部关闭
+        if (rankingModal) {
+            rankingModal.addEventListener('click', function(event) {
+                if (event.target === rankingModal) {
+                    closeRankingModal();
+                }
+            });
+        }
+    }
+}
+
 // 页面加载完成后初始化
 window.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成，开始初始化');
@@ -739,6 +840,8 @@ window.addEventListener('DOMContentLoaded', function() {
     initGallery();
     // 获取QQ群信息
     getQQGroupInfo();
+    // 初始化榜单功能
+    initRanking();
     console.log('初始化完成');
 });
 

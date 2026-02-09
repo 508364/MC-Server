@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- 引入外部CSS文件 -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- 引入marked.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- 网页图标 -->
     <link rel="icon" type="image/svg+xml" href="data:image/png;base64,
 iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAAIGNIUk0AAHomAACAhAAA+gAAAIDo
@@ -902,9 +904,14 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
         <div class="container">
             <nav>
                 <div class="server-name">qwq么么酱的服务器awa</div>
-                <button class="theme-toggle" id="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <div class="nav-buttons">
+                    <button id="ranking-btn" class="ranking-btn">
+                        <i class="fas fa-align-justify"></i> 服务器之最
+                    </button>
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
@@ -995,6 +1002,26 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
                     <i class="fas fa-plus"></i> 加入群聊
                 </button>
                 <button id="qq-close" class="qq-btn reject">
+                    <i class="fas fa-times"></i> 关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 榜单模态框 -->
+    <div id="ranking-modal" class="modal ranking-modal">
+        <div class="ranking-content">
+            <div class="ranking-header">
+                <h2><i class="fas fa-align-justify"></i> 服务器之最</h2>
+                <button id="ranking-refresh" class="ranking-btn refresh">
+                    <i class="fas fa-sync-alt"></i> 刷新
+                </button>
+            </div>
+            <div id="ranking-content">
+                <div class="loading">加载中...</div>
+            </div>
+            <div class="ranking-buttons">
+                <button id="ranking-close" class="ranking-btn reject">
                     <i class="fas fa-times"></i> 关闭
                 </button>
             </div>
