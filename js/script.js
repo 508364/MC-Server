@@ -770,9 +770,9 @@ function loadRankingContent() {
         // 显示加载状态
         rankingContent.innerHTML = '<div class="loading">正在加载榜单...</div>';
         
-        // 读取ranking.md文件，添加时间戳避免缓存
+        // 从GitHub获取ranking.md文件，使用gh-proxy加速并添加时间戳避免缓存
         const timestamp = new Date().getTime();
-        fetch(`ranking.md?_=${timestamp}`)
+        fetch(`https://gh-proxy.com/https://github.com/508364/-/main/ranking.md?_=${timestamp}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('网络响应失败: ' + response.status);
