@@ -770,9 +770,10 @@ function loadRankingContent() {
         // 显示加载状态
         rankingContent.innerHTML = '<div class="loading">正在加载榜单...</div>';
         
-        // 从GitHub获取ranking.md文件，使用gh-proxy加速并添加时间戳避免缓存
+        // 从GitHub获取ranking.md文件，添加时间戳避免缓存
         const timestamp = new Date().getTime();
-        fetch(`https://gh-proxy.com/https://github.com/508364/-/main/ranking.md?_=${timestamp}`)
+        const githubUrl = `https://gh-proxy.com/https://github.com/508364/-/main/ranking.md?_=${timestamp}`;
+        fetch(githubUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('网络响应失败: ' + response.status);
@@ -780,7 +781,7 @@ function loadRankingContent() {
                 return response.text();
             })
             .then(markdown => {
-                console.log('获取到最新的markdown数据，开始渲染');
+                console.log('获取到最新的GitHub markdown数据，开始渲染');
                 // 使用marked.js渲染markdown内容
                 const html = marked.parse(markdown);
                 rankingContent.innerHTML = html;
