@@ -772,7 +772,7 @@ function loadRankingContent() {
         
         // 从GitHub获取ranking.md文件，添加时间戳避免缓存
         const timestamp = new Date().getTime();
-        const githubUrl = `https://gh-proxy.com/https://github.com/508364/-/main/ranking.md?_=${timestamp}`;
+        const githubUrl = `https://raw.githubusercontent.com/508364/-/main/ranking.md?_=${timestamp}`;
         fetch(githubUrl)
             .then(response => {
                 if (!response.ok) {
