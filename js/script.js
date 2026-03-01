@@ -272,7 +272,7 @@ function calculateImageSHA(imageUrl) {
 // 触发图片下载
 function triggerImageDownload() {
     // GitHub API 地址，用于获取 Photo 目录下的文件列表
-    const githubApiUrl = 'https://api.github.com/repos/508364/MC-Server/contents/Photo';
+    const githubApiUrl = 'https://api.github.com/repos/508364/-/contents/Photo';
     const ghProxyUrl = 'https://gh-proxy.com/';
     
     // 发送请求获取文件列表
@@ -828,6 +828,88 @@ function initRanking() {
     }
 }
 
+// 获取链接列表
+function fetchServerLinks() {
+    console.log('开始获取服务器链接列表');
+    const nodeJsonUrl = 'https://gh-proxy.com/https://raw.githubusercontent.com/508364/-/refs/heads/main/node.json';
+    console.log('请求URL:', nodeJsonUrl);
+    
+    fetch(nodeJsonUrl)
+        .then(response => {
+            console.log('响应状态:', response.status);
+            console.log('响应状态文本:', response.statusText);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('获取到服务器链接数据:', data);
+            
+            // 直接处理数据，不检查data.state，因为JSON结构中没有state字段
+            processServerLinks(data);
+        })
+        .catch(error => {
+            console.error('获取服务器链接失败:', error);
+        });
+}
+
+// 处理服务器链接数据
+function processServerLinks(data) {
+    console.log('处理服务器链接数据:', data);
+    
+    // 检查数据结构
+    if (data && typeof data === 'object') {
+        // 转换JSON结构为数组格式
+        const nodes = Object.entries(data).map(([name, node]) => ({
+            name: name,
+            state: node.state === 'true' || node.state === true, // 处理字符串和布尔值
+            address: node.url || node.address // 处理url或address字段
+        }));
+        
+        console.log('所有节点:', nodes);
+        console.log('节点数量:', nodes.length);
+        
+        // 过滤出状态为true的节点
+        const activeNodes = nodes.filter(node => node.state === true);
+        console.log('活跃节点:', activeNodes);
+        console.log('活跃节点数量:', activeNodes.length);
+        
+        // 更新页面上的服务器地址列表
+        updateServerAddresses(activeNodes);
+    }
+}
+
+// 更新服务器地址列表
+function updateServerAddresses(nodes) {
+    const addressGrid = document.querySelector('.address-grid');
+    if (!addressGrid) return;
+    
+    // 清空现有地址
+    addressGrid.innerHTML = '';
+    
+    // 添加新地址
+    nodes.forEach((node, index) => {
+        const addressCard = document.createElement('div');
+        addressCard.className = 'address-card';
+        
+        const nodeName = node.name || `节点${index + 1}`;
+        const address = node.address || '';
+        
+        addressCard.innerHTML = `
+            <h3>${nodeName}</h3>
+            <div class="address">
+                <span class="address-text">${address}</span>
+                <button class="copy-btn" onclick="copyAddress('${address}')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        `;
+        
+        addressGrid.appendChild(addressCard);
+    });
+}
+
 // 页面加载完成后初始化
 window.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成，开始初始化');
@@ -843,6 +925,9 @@ window.addEventListener('DOMContentLoaded', function() {
     getQQGroupInfo();
     // 初始化榜单功能
     initRanking();
+    // 获取服务器链接列表
+    console.log('调用fetchServerLinks');
+    fetchServerLinks();
     console.log('初始化完成');
 });
 
@@ -857,7 +942,7 @@ function initGallery() {
     heroSection.appendChild(backgroundContainer);
 
     // GitHub API 地址，用于获取 Photo 目录下的文件列表
-    const githubApiUrl = 'https://api.github.com/repos/508364/MC-Server/contents/Photo';
+    const githubApiUrl = 'https://api.github.com/repos/508364/-/contents/Photo';
     const ghProxyUrl = 'https://gh-proxy.com/';
     let imageUrls = [];
     let currentIndex = 0;
