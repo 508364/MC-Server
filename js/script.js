@@ -910,6 +910,89 @@ function updateServerAddresses(nodes) {
     });
 }
 
+// 获取整合包下载链接
+function fetchModpackLinks() {
+    console.log('开始获取整合包下载链接');
+    const modsJsonUrl = 'https://raw.githubusercontent.com/508364/-/main/mods.json';
+    console.log('请求URL:', modsJsonUrl);
+    
+    fetch(modsJsonUrl)
+        .then(response => {
+            console.log('响应状态:', response.status);
+            console.log('响应状态文本:', response.statusText);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.text();
+        })
+        .then(text => {
+            // 修复JSON格式（添加缺失的逗号）
+            const fixedText = text.replace(/"([^"\n]+)"\s*:\s*"([^"\n]+)"\s*\n/g, '"$1": "$2",\n');
+            console.log('修复后的JSON:', fixedText);
+            
+            try {
+                const data = JSON.parse(fixedText);
+                console.log('获取到整合包下载链接数据:', data);
+                updateModpackLinks(data);
+            } catch (error) {
+                console.error('解析JSON失败:', error);
+                // 手动解析作为后备方案
+                parseModpackDataManually(text);
+            }
+        })
+        .catch(error => {
+            console.error('获取整合包下载链接失败:', error);
+        });
+}
+
+// 手动解析整合包数据
+function parseModpackDataManually(text) {
+    console.log('尝试手动解析整合包数据');
+    
+    const urlMatch = text.match(/"url"\s*:\s*"([^"]+)"/);
+    const proxyUrlMatch = text.match(/"proxy-url"\s*:\s*"([^"]+)"/);
+    
+    const data = {};
+    if (urlMatch) {
+        data.url = urlMatch[1];
+    }
+    if (proxyUrlMatch) {
+        data['proxy-url'] = proxyUrlMatch[1];
+    }
+    
+    console.log('手动解析结果:', data);
+    updateModpackLinks(data);
+}
+
+// 更新整合包下载链接
+function updateModpackLinks(data) {
+    const downloadSection = document.querySelector('.download-section');
+    if (!downloadSection) return;
+    
+    // 清空现有链接
+    const existingLinks = downloadSection.querySelectorAll('.download-btn');
+    existingLinks.forEach(link => link.remove());
+    
+    // 添加新链接
+    if (data.url) {
+        const directLink = document.createElement('a');
+        directLink.href = data.url;
+        directLink.className = 'download-btn';
+        directLink.target = '_blank';
+        directLink.innerHTML = '<i class="fas fa-download"></i> <strong>github</strong>直接下载';
+        downloadSection.appendChild(directLink);
+    }
+    
+    if (data['proxy-url']) {
+        const proxyLink = document.createElement('a');
+        proxyLink.href = data['proxy-url'];
+        proxyLink.className = 'download-btn';
+        proxyLink.target = '_blank';
+        proxyLink.innerHTML = '<i class="fas fa-bolt"></i> <strong>gh-proxy</strong>加速下载';
+        downloadSection.appendChild(proxyLink);
+    }
+}
+
 // 页面加载完成后初始化
 window.addEventListener('DOMContentLoaded', function() {
     console.log('DOM加载完成，开始初始化');
@@ -928,6 +1011,9 @@ window.addEventListener('DOMContentLoaded', function() {
     // 获取服务器链接列表
     console.log('调用fetchServerLinks');
     fetchServerLinks();
+    // 获取整合包下载链接
+    console.log('调用fetchModpackLinks');
+    fetchModpackLinks();
     console.log('初始化完成');
 });
 
