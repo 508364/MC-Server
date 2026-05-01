@@ -905,9 +905,6 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
             <nav>
                 <div class="server-name">qwq么么酱的服务器awa</div>
                 <div class="nav-buttons">
-                    <button id="ranking-btn" class="ranking-btn">
-                        <i class="fas fa-align-justify"></i> 服务器之最
-                    </button>
                     <button class="theme-toggle" id="theme-toggle">
                         <i class="fas fa-moon"></i>
                     </button>
@@ -915,23 +912,6 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
             </nav>
         </div>
     </header>
-
-    <!-- 服务器名称和背景图片 -->
-    <section class="hero">
-        <div class="container">
-            <h1>qwq么么酱的服务器awa</h1>
-            <p>(≡v≡)</p>
-        </div>
-    </section>
-
-    <!-- 图片预览模态框 -->
-    <div id="image-modal" class="modal">
-        <span class="close">&times;</span>
-        <button class="modal-prev">&lt;</button>
-        <img class="modal-content" id="modal-image">
-        <button class="modal-next">&gt;</button>
-        <div class="caption"></div>
-    </div>
 
     <!-- Cookie提示模态框 -->
     <div id="cookie-modal" class="modal cookie-modal">
@@ -1008,126 +988,147 @@ dG1pbWU6dHlwZQBpbWFnZS9wbme5lRCHAAAAAElFTkSuQmCC" width="256" height="256"/>
         </div>
     </div>
 
-    <!-- 榜单模态框 -->
-    <div id="ranking-modal" class="modal ranking-modal">
-        <div class="ranking-content">
-            <div class="ranking-header">
-                <h2><i class="fas fa-align-justify"></i> 服务器之最</h2>
-                <button id="ranking-refresh" class="ranking-btn refresh">
-                    <i class="fas fa-sync-alt"></i> 刷新
-                </button>
-            </div>
-            <div id="ranking-content">
-                <div class="loading">加载中...</div>
-            </div>
-            <div class="ranking-buttons">
-                <button id="ranking-close" class="ranking-btn reject">
-                    <i class="fas fa-times"></i> 关闭
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 服务器信息 -->
-    <section class="server-info">
+    <!-- 主要内容区域 - 左右结构 -->
+    <section class="main-content">
         <div class="container">
-            <h2>服务器信息</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h3>服务器版本</h3>
-                    <p>1.20.4-Fabric</p>
-                    <p>FabricAPI ≥ 0.16.10</p>
+            <div class="content-wrapper">
+                <!-- 左侧分类导航 -->
+                <div class="sidebar">
+                    <h3>服务器导航</h3>
+                    <ul class="category-list">
+                        <li class="category-item active" data-category="info">
+                            <i class="fas fa-info-circle"></i> 服务器信息
+                        </li>
+                        <li class="category-item" data-category="addresses">
+                            <i class="fas fa-map-marker-alt"></i> 服务器地址
+                        </li>
+                        <li class="category-item" data-category="modpack">
+                            <i class="fas fa-download"></i> 整合包下载
+                        </li>
+                        <li class="category-item" data-category="ranking">
+                            <i class="fas fa-trophy"></i> 服务器之最
+                        </li>
+                        <li class="category-item" data-category="gallery">
+                            <i class="fas fa-images"></i> 服务器相册
+                        </li>
+                    </ul>
                 </div>
-                <div class="info-card">
-                    <h3>服务器注意</h3>
-                    <p>使用了stp插件</p>
-                    <p>使用"!!stp"进行传送</p>
-                </div>
-                <div class="info-card">
-                    <h3>服务器群聊</h3>
-                    <button id="qq-group-btn" class="qq-btn">
-                    <i class="fab fa-qq"></i> 点击添加群聊
-                    </button>
-                </div>
-                <div class="info-card">
-                    <h3>服务器特色</h3>
-                    <p>稳定运行，<del style="color: red;"><small style="color: rgb(255, 255, 255);">畜生</small></del>友好的群友</p>
-                    <p>还有<del style="color: red;"><small style="color: rgb(255, 255, 255);">爱整活</small></del>的玩家</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 服务器地址 -->
-    <section class="server-addresses">
-        <div class="container">
-            <h2>服务器地址</h2>
-            <div class="address-grid">
-                <div class="address-card">
-                    <h3>杭州节点</h3>
-                    <div class="address">
-                        <span class="address-text">cn-zj-hz-1.lcf.im:34907</span>
-                        <button class="copy-btn" onclick="copyAddress('cn-zj-hz-1.lcf.im:34907')">
-                            <i class="fas fa-copy"></i>
-                        </button>
+                
+                <!-- 右侧内容区域 -->
+                <div class="content-area">
+                    <!-- 服务器信息 -->
+                    <div class="category-content" id="info-content">
+                        <h2>服务器信息</h2>
+                        <div class="info-grid">
+                            <div class="info-card">
+                                <h3>服务器版本</h3>
+                                <p>1.20.4-Fabric</p>
+                                <p>FabricAPI ≥ 0.16.10</p>
+                            </div>
+                            <div class="info-card">
+                                <h3>服务器注意</h3>
+                                <p>使用了stp插件</p>
+                                <p>使用"!!stp"进行传送</p>
+                            </div>
+                            <div class="info-card">
+                                <h3>服务器群聊</h3>
+                                <button id="qq-group-btn" class="qq-btn">
+                                <i class="fab fa-qq"></i> 点击添加群聊
+                                </button>
+                            </div>
+                            <div class="info-card">
+                                <h3>服务器特色</h3>
+                                <p>稳定运行，<del style="color: red;"><small style="color: rgb(255, 255, 255);">畜生</small></del>友好的群友</p>
+                                <p>还有<del style="color: red;"><small style="color: rgb(255, 255, 255);">爱整活</small></del>的玩家</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 服务器地址 -->
+                    <div class="category-content" id="addresses-content">
+                        <h2>服务器地址</h2>
+                        <div class="address-grid">
+                            <div class="address-card">
+                                <h3>杭州节点</h3>
+                                <div class="address">
+                                    <span class="address-text">cn-zj-hz-1.lcf.im:34907</span>
+                                    <button class="copy-btn" onclick="copyAddress('cn-zj-hz-1.lcf.im:34907')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <h3>宁波节点</h3>
+                                <div class="address">
+                                    <span class="address-text">cn-zj-nb-1.lcf.im:37190</span>
+                                    <button class="copy-btn" onclick="copyAddress('cn-zj-nb-1.lcf.im:37190')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <h3>娄底节点</h3>
+                                <div class="address">
+                                    <span class="address-text">cn-hn-ld-1.lcf.im:24151</span>
+                                    <button class="copy-btn" onclick="copyAddress('cn-hn-ld-1.lcf.im:24151')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <h3>武汉节点</h3>
+                                <div class="address">
+                                    <span class="address-text">cn-hb-wh-1.lcf.im:36587</span>
+                                    <button class="copy-btn" onclick="copyAddress('cn-hb-wh-1.lcf.im:36587')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <h3>备用通道1</h3>
+                                <div class="address">
+                                    <span class="address-text">57c42474b0ea.ofalias.net:54658</span>
+                                    <button class="copy-btn" onclick="copyAddress('57c42474b0ea.ofalias.net:54658')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="address-card">
+                                <h3>备用通道2</h3>
+                                <div class="address">
+                                    <span class="address-text">7e526c6c1d80.ofalias.net:51597</span>
+                                    <button class="copy-btn" onclick="copyAddress('7e526c6c1d80.ofalias.net:51597')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 整合包下载 -->
+                    <div class="category-content" id="modpack-content">
+                        <h2>服务器整合包</h2>
+                        <div class="download-section">
+                            <p>点击下方链接下载服务器整合包，包含所有必要的模组和配置</p>
+                            <!-- 下载链接将由JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 服务器之最 -->
+                    <div class="category-content" id="ranking-content">
+                        <div class="loading">加载中...</div>
+                    </div>
+                    
+                    <!-- 服务器相册 -->
+                    <div class="category-content" id="gallery-content">
+                        <h2>服务器相册</h2>
+                        <div class="gallery-container">
+                            <div class="gallery-grid" id="gallery-grid">
+                                <!-- 图片将作为背景显示 -->
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="address-card">
-                    <h3>宁波节点</h3>
-                    <div class="address">
-                        <span class="address-text">cn-zj-nb-1.lcf.im:37190</span>
-                        <button class="copy-btn" onclick="copyAddress('cn-zj-nb-1.lcf.im:37190')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="address-card">
-                    <h3>娄底节点</h3>
-                    <div class="address">
-                        <span class="address-text">cn-hn-ld-1.lcf.im:24151</span>
-                        <button class="copy-btn" onclick="copyAddress('cn-hn-ld-1.lcf.im:24151')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="address-card">
-                    <h3>武汉节点</h3>
-                    <div class="address">
-                        <span class="address-text">cn-hb-wh-1.lcf.im:36587</span>
-                        <button class="copy-btn" onclick="copyAddress('cn-hb-wh-1.lcf.im:36587')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="address-card">
-                    <h3>备用通道1</h3>
-                    <div class="address">
-                        <span class="address-text">57c42474b0ea.ofalias.net:54658</span>
-                        <button class="copy-btn" onclick="copyAddress('57c42474b0ea.ofalias.net:54658')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="address-card">
-                    <h3>备用通道2</h3>
-                    <div class="address">
-                        <span class="address-text">7e526c6c1d80.ofalias.net:51597</span>
-                        <button class="copy-btn" onclick="copyAddress('7e526c6c1d80.ofalias.net:51597')">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 整合包下载 -->
-    <section class="modpack">
-        <div class="container">
-            <h2>服务器整合包</h2>
-            <div class="download-section">
-                <p>点击下方链接下载服务器整合包，包含所有必要的模组和配置</p>
-                <!-- 下载链接将由JavaScript动态生成 -->
             </div>
         </div>
     </section>

@@ -145,11 +145,14 @@ let qqGroupInfo;
 let qqGroupData = null;
 
 // 榜单相关功能
-let rankingModal;
-let rankingBtn;
-let rankingCloseBtn;
-let rankingRefreshBtn;
-let rankingContent;
+let rankingList;
+
+// 分类导航相关功能
+let categoryItems;
+let categoryContents;
+
+// 画廊相关功能
+let galleryGrid;
 
 // 初始化DOM元素
 function initDomElements() {
@@ -165,12 +168,15 @@ function initDomElements() {
     qqCloseBtn = document.getElementById('qq-close');
     qqGroupInfo = document.getElementById('qq-group-info');
     
-    // 初始化榜单模态框元素
-    rankingModal = document.getElementById('ranking-modal');
-    rankingBtn = document.getElementById('ranking-btn');
-    rankingCloseBtn = document.getElementById('ranking-close');
-    rankingRefreshBtn = document.getElementById('ranking-refresh');
-    rankingContent = document.getElementById('ranking-content');
+    // 初始化榜单元素
+    rankingList = document.getElementById('ranking-list');
+    
+    // 初始化分类导航元素
+    categoryItems = document.querySelectorAll('.category-item');
+    categoryContents = document.querySelectorAll('.category-content');
+    
+    // 初始化画廊元素
+    galleryGrid = document.getElementById('gallery-grid');
     
     console.log('DOM元素初始化结果:', {
         cookieModal: !!cookieModal,
@@ -181,11 +187,10 @@ function initDomElements() {
         qqJoinBtn: !!qqJoinBtn,
         qqCloseBtn: !!qqCloseBtn,
         qqGroupInfo: !!qqGroupInfo,
-        rankingModal: !!rankingModal,
-        rankingBtn: !!rankingBtn,
-        rankingCloseBtn: !!rankingCloseBtn,
-        rankingRefreshBtn: !!rankingRefreshBtn,
-        rankingContent: !!rankingContent
+        rankingList: !!rankingList,
+        categoryItems: !!categoryItems,
+        categoryContents: !!categoryContents,
+        galleryGrid: !!galleryGrid
     });
 }
 
@@ -269,7 +274,7 @@ function calculateImageSHA(imageUrl) {
     return hash.toString(16);
 }
 
-// 触发图片下载
+// 触发图片下载并显示为背景
 function triggerImageDownload() {
     // GitHub API 地址，用于获取 Photo 目录下的文件列表
     const githubApiUrl = 'https://api.github.com/repos/508364/-/contents/Photo';
@@ -302,11 +307,35 @@ function triggerImageDownload() {
                 // 启动多线程下载图片
                 console.log('触发多线程下载图片');
                 downloadImages(imageUrls);
+                
+                // 显示图片为背景
+                displayImagesAsBackground(imageUrls);
             }
         })
         .catch(error => {
             console.error('获取图片列表失败:', error);
         });
+}
+
+// 显示图片为背景
+function displayImagesAsBackground(imageUrls) {
+    console.log('显示图片为背景:', imageUrls.length, '张图片');
+    if (!galleryGrid) {
+        console.error('galleryGrid元素未找到');
+        return;
+    }
+    
+    // 清空画廊
+    galleryGrid.innerHTML = '';
+    
+    // 添加图片作为背景
+    imageUrls.forEach((image, index) => {
+        console.log('添加图片作为背景:', image.url);
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.style.backgroundImage = `url(${image.url})`;
+        galleryGrid.appendChild(galleryItem);
+    });
 }
 
 // 多线程下载图片
@@ -371,6 +400,55 @@ function initEventListeners() {
             showCookieSettingsModal();
         });
         console.log('添加cookieSettingsBtn事件监听器');
+    }
+    
+    // 分类导航事件
+    if (categoryItems) {
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.dataset.category;
+                console.log('用户点击了分类:', category);
+                showCategory(category);
+            });
+        });
+        console.log('添加分类导航事件监听器');
+    }
+}
+
+// 显示指定分类
+function showCategory(category) {
+    console.log('显示分类:', category);
+    
+    // 更新分类项状态
+    if (categoryItems) {
+        categoryItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.category === category) {
+                item.classList.add('active');
+            }
+        });
+    }
+    
+    // 更新内容显示
+    if (categoryContents) {
+        categoryContents.forEach(content => {
+            content.classList.remove('active');
+            if (content.id === category + '-content') {
+                content.classList.add('active');
+            }
+        });
+    }
+    
+    // 如果是排行榜分类，自动加载内容
+    if (category === 'ranking') {
+        console.log('切换到排行榜分类，自动加载内容');
+        loadRankingContent();
+    }
+    
+    // 自动滚动对齐到顶部
+    const contentWrapper = document.querySelector('.content-wrapper');
+    if (contentWrapper) {
+        contentWrapper.scrollTop = 0;
     }
 }
 
@@ -745,87 +823,52 @@ function getQQGroupInfo() {
     }
 }
 
-// 打开榜单模态框
-function openRankingModal() {
-    console.log('打开榜单模态框');
-    if (rankingModal) {
-        rankingModal.style.display = 'flex';
-        // 加载榜单内容
-        loadRankingContent();
-    }
-}
-
-// 关闭榜单模态框
-function closeRankingModal() {
-    console.log('关闭榜单模态框');
-    if (rankingModal) {
-        rankingModal.style.display = 'none';
-    }
-}
-
 // 加载榜单内容
 function loadRankingContent() {
     console.log('加载榜单内容');
-    if (rankingContent) {
-        // 显示加载状态
-        rankingContent.innerHTML = '<div class="loading">正在加载榜单...</div>';
+    const targetElement = document.getElementById('ranking-content');
+    console.log('目标元素:', targetElement);
+    if (targetElement) {
+        targetElement.innerHTML = '<div class="loading">正在加载榜单...</div>';
         
-        // 从GitHub获取ranking.md文件，添加时间戳避免缓存
         const timestamp = new Date().getTime();
-        const githubUrl = `https://raw.githubusercontent.com/508364/-/main/ranking.md?_=${timestamp}`;
+        const githubUrl = `https://gh-proxy.com/https://raw.githubusercontent.com/508364/-/main/ranking.md?_=${timestamp}`;
+        console.log('请求URL:', githubUrl);
+        console.log('marked库可用:', typeof marked !== 'undefined');
+        
         fetch(githubUrl)
             .then(response => {
+                console.log('响应状态:', response.status);
                 if (!response.ok) {
                     throw new Error('网络响应失败: ' + response.status);
                 }
                 return response.text();
             })
             .then(markdown => {
-                console.log('获取到最新的GitHub markdown数据，开始渲染');
-                // 使用marked.js渲染markdown内容
-                const html = marked.parse(markdown);
-                rankingContent.innerHTML = html;
+                console.log('获取到的markdown内容（前100字符）:', markdown.substring(0, 100));
+                console.log('marked库可用:', typeof marked !== 'undefined');
+                
+                if (typeof marked !== 'undefined' && marked.parse) {
+                    const html = marked.parse(markdown);
+                    console.log('渲染后的HTML:', html);
+                    targetElement.innerHTML = '<h2>排行榜</h2>' + html;
+                    console.log('内容已设置到元素中');
+                } else {
+                    throw new Error('marked库未正确加载');
+                }
             })
             .catch(error => {
                 console.error('加载榜单失败:', error);
-                rankingContent.innerHTML = '<div class="error">加载榜单失败，请稍后再试</div>';
+                targetElement.innerHTML = '<div class="error">加载榜单失败，请稍后再试: ' + error.message + '</div>';
             });
+    } else {
+        console.error('找不到ranking-content元素');
     }
 }
 
 // 初始化榜单功能
 function initRanking() {
-    if (rankingBtn) {
-        console.log('初始化榜单按钮事件');
-        
-        // 添加点击事件，打开模态框
-        rankingBtn.addEventListener('click', function() {
-            console.log('用户点击了榜单按钮');
-            openRankingModal();
-        });
-        
-        // 初始化模态框关闭按钮事件
-        if (rankingCloseBtn) {
-            rankingCloseBtn.addEventListener('click', closeRankingModal);
-        }
-        
-        // 初始化刷新按钮事件
-        if (rankingRefreshBtn) {
-            rankingRefreshBtn.addEventListener('click', function() {
-                console.log('用户点击了刷新按钮');
-                loadRankingContent();
-            });
-        }
-        
-        // 点击模态框外部关闭
-        if (rankingModal) {
-            rankingModal.addEventListener('click', function(event) {
-                if (event.target === rankingModal) {
-                    closeRankingModal();
-                }
-            });
-        }
-    }
+    console.log('初始化榜单功能');
 }
 
 // 获取链接列表
@@ -1014,18 +1057,16 @@ window.addEventListener('DOMContentLoaded', function() {
     // 获取整合包下载链接
     console.log('调用fetchModpackLinks');
     fetchModpackLinks();
+    // 显示默认分类
+    showCategory('info');
     console.log('初始化完成');
 });
 
 // 修改initGallery函数以支持图片缓存
 function initGallery() {
-    // 创建背景图片容器
-    const heroSection = document.querySelector('.hero');
-    if (!heroSection) return;
-    
-    const backgroundContainer = document.createElement('div');
-    backgroundContainer.className = 'hero-background';
-    heroSection.appendChild(backgroundContainer);
+    // 获取main-content section
+    const mainContent = document.querySelector('.main-content');
+    if (!mainContent) return;
 
     // GitHub API 地址，用于获取 Photo 目录下的文件列表
     const githubApiUrl = 'https://api.github.com/repos/508364/-/contents/Photo';
@@ -1086,51 +1127,14 @@ function initGallery() {
                     }
                 }
 
-                // 创建初始图片
+                // 设置初始背景图片
                 updateBackgroundImage();
 
                 // 启动轮播
                 setInterval(() => {
-                    // 实现右滑切换效果
-                    const nextIndex = (currentIndex + 1) % imageUrls.length;
-                    
-                    // 创建下一张图片（从右侧进入）
-                    const nextImg = document.createElement('img');
-                    nextImg.src = imageUrls[nextIndex].url;
-                    nextImg.alt = `背景图片 ${nextIndex + 1}`;
-                    nextImg.className = 'background-image next';
-                    
-                    // 添加点击事件
-                    nextImg.addEventListener('click', function() {
-                        openModal(this.src, imageUrls[nextIndex].name, nextIndex, imageUrls);
-                    });
-                    
-                    // 添加到容器
-                    backgroundContainer.appendChild(nextImg);
-                    
-                    // 触发重排，然后开始动画
-                    void nextImg.offsetWidth;
-                    
-                    // 获取当前图片
-                    const currentImg = backgroundContainer.querySelector('.background-image.active');
-                    if (currentImg) {
-                        currentImg.className = 'background-image prev';
-                    }
-                    
-                    // 激活下一张图片
-                    nextImg.className = 'background-image active';
-                    
-                    // 动画结束后移除旧图片（等待动画完全结束）
-                    setTimeout(() => {
-                        const prevImg = backgroundContainer.querySelector('.background-image.prev');
-                        if (prevImg) {
-                            console.log('移除旧图片');
-                            backgroundContainer.removeChild(prevImg);
-                        }
-                    }, 1100); // 稍微延迟，确保动画完全结束
-                    
-                    // 更新当前索引
-                    currentIndex = nextIndex;
+                    // 切换到下一张图片
+                    currentIndex = (currentIndex + 1) % imageUrls.length;
+                    updateBackgroundImage();
                 }, 5000); // 每5秒切换一次
             }
         })
@@ -1138,22 +1142,8 @@ function initGallery() {
             console.error('获取图片失败:', error);
         });
 
-    // 更新背景图片 - 实现右滑切换效果
+    // 更新背景图片
     function updateBackgroundImage() {
-        // 清空容器
-        backgroundContainer.innerHTML = '';
-
-        // 创建图片元素
-        const img = document.createElement('img');
-        img.src = imageUrls[currentIndex].url;
-        img.alt = `背景图片 ${currentIndex + 1}`;
-        img.className = 'background-image active';
-
-        // 添加点击事件
-        img.addEventListener('click', function() {
-            openModal(this.src, imageUrls[currentIndex].name, currentIndex, imageUrls);
-        });
-
-        backgroundContainer.appendChild(img);
+        mainContent.style.backgroundImage = `url('${imageUrls[currentIndex].url}')`;
     }
 }
