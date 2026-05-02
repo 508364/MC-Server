@@ -10,11 +10,11 @@
     --border: #e0e0e0;
     --card-bg: #ffffff;
     /* 毛玻璃效果 - 亮色 */
-    --glass-bg: rgba(255, 255, 255, 0.85);
-    --glass-header: rgba(255, 255, 255, 0.9);
-    --glass-sidebar: rgba(255, 255, 255, 0.88);
-    --glass-content: rgba(255, 255, 255, 0.8);
-    --glass-overlay: rgba(255, 255, 255, 0.85);
+    --glass-bg: rgba(255, 255, 255, 0.45);
+    --glass-header: rgba(255, 255, 255, 0.35);
+    --glass-sidebar: rgba(255, 255, 255, 0.4);
+    --glass-content: rgba(255, 255, 255, 0.3);
+    --glass-overlay: rgba(255, 255, 255, 0.4);
     /* 阴影 - 亮色 */
     --shadow-normal: 0 4px 20px rgba(0, 0, 0, 0.08);
     --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.12);
@@ -36,9 +36,9 @@
     --address-border: rgba(0, 0, 0, 0.1);
     --gallery-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
     --gallery-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.15);
-    --download-section-bg: rgba(255, 255, 255, 0.7);
-    --download-btn-bg: rgba(76, 175, 80, 0.9);
-    --download-btn-border: rgba(255, 255, 255, 0.15);
+    --download-section-bg: rgba(255, 255, 255, 0.5);
+    --download-btn-bg: rgba(76, 175, 80, 0.85);
+    --download-btn-border: rgba(255, 255, 255, 0.2);
 }
 
 /* 暗色主题 */
