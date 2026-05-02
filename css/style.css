@@ -9,36 +9,36 @@
     --accent-hover: #45a049;
     --border: #e0e0e0;
     --card-bg: #ffffff;
-    /* 毛玻璃效果 - 亮色 */
-    --glass-bg: rgba(255, 255, 255, 0.45);
+    /* 毛玻璃效果 - 亮色（与暗色模式相同比例） */
+    --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-header: rgba(255, 255, 255, 0.35);
-    --glass-sidebar: rgba(255, 255, 255, 0.4);
-    --glass-content: rgba(255, 255, 255, 0.3);
-    --glass-overlay: rgba(255, 255, 255, 0.4);
-    /* 阴影 - 亮色 */
-    --shadow-normal: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.12);
+    --glass-sidebar: rgba(255, 255, 255, 0.3);
+    --glass-content: rgba(255, 255, 255, 0.15);
+    --glass-overlay: rgba(255, 255, 255, 0.45);
+    /* 阴影 - 亮色（与暗色模式相同比例） */
+    --shadow-normal: 0 4px 20px rgba(0, 0, 0, 0.2);
+    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.25);
     /* 背景 - 亮色 */
     --body-bg: #f5f5f5;
-    /* 卡片 - 亮色 */
-    --card-normal: rgba(0, 0, 0, 0.04);
-    --card-hover: rgba(0, 0, 0, 0.08);
-    /* 模态框 - 亮色 */
+    /* 卡片 - 亮色（与暗色模式相同比例） */
+    --card-normal: rgba(0, 0, 0, 0.1);
+    --card-hover: rgba(0, 0, 0, 0.15);
+    /* 模态框 - 亮色（与暗色模式相同比例） */
     --modal-bg: rgba(0, 0, 0, 0.8);
     --modal-btn: rgba(0, 0, 0, 0.5);
-    --modal-btn-hover: rgba(0, 0, 0, 0.7);
-    /* 其他元素 - 亮色 */
+    --modal-btn-hover: rgba(0, 0, 0, 0.8);
+    /* 其他元素 - 亮色（与暗色模式相同比例） */
     --cookie-modal-bg: rgba(0, 0, 0, 0.8);
-    --text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    --text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     --ranking-refresh-bg: rgba(0, 0, 0, 0.25);
     --gallery-item-bg: rgba(0, 0, 0, 0.4);
-    --address-bg: rgba(0, 0, 0, 0.05);
-    --address-border: rgba(0, 0, 0, 0.1);
-    --gallery-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-    --gallery-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.15);
-    --download-section-bg: rgba(255, 255, 255, 0.5);
-    --download-btn-bg: rgba(76, 175, 80, 0.85);
-    --download-btn-border: rgba(255, 255, 255, 0.2);
+    --address-bg: rgba(0, 0, 0, 0.2);
+    --address-border: rgba(0, 0, 0, 0.08);
+    --gallery-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --gallery-shadow-hover: 0 5px 15px rgba(0, 0, 0, 0.2);
+    --download-section-bg: rgba(255, 255, 255, 0.25);
+    --download-btn-bg: rgba(76, 175, 80, 0.8);
+    --download-btn-border: rgba(0, 0, 0, 0.12);
 }
 
 /* 暗色主题 */

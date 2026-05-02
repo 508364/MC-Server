@@ -615,7 +615,7 @@ function closeQQModal() {
 function joinQQGroup() {
     console.log('用户点击了加入QQ群按钮');
     // 打开QQ群链接
-    window.open('https://qm.qq.com/q/OCroL7bkqI', '_blank');
+    window.open('https://qm.qq.com/cgi-bin/qm/qr?k=hbCnVdRs3YiMEGtPXG49AG-v4DAHSenI&jump_from=webapi&authKey=M/ehxPVTzAoXjSSQcTkVQaOHKaLKutOJ/nOOj2eCtc8NZkNPr3g5BoAUe1upR1Av', '_blank');
 }
 
 // 显示QQ群信息
@@ -712,10 +712,11 @@ function displayQQGroupInfo(groupData) {
     }
 }
 
-// 实时获取并解析QQ群信息
+// 获取并显示QQ群信息（使用外部代理）
 function fetchQQGroupInfo() {
-    console.log('实时获取QQ群信息');
-    const proxyUrl = 'https://api.codetabs.com/v1/proxy/?quest=https://qm.qq.com/q/OCroL7bkqI';
+    console.log('获取QQ群信息（使用外部代理）');
+    // 使用codetabs作为代理获取QQ群页面
+    const proxyUrl = 'https://api.codetabs.com/v1/proxy/?quest=https://qm.qq.com/q/OCroL7bkq';
     
     // 显示加载状态
     if (qqGroupInfo) {
@@ -732,7 +733,7 @@ function fetchQQGroupInfo() {
         .then(html => {
             console.log('获取到HTML数据，开始解析');
             
-            // 提取script标签中的JSON数据
+            // 尝试提取script标签中的JSON数据
             const scriptMatch = html.match(/<script type="application\/json"[^>]*id="__NUXT_DATA__">([\s\S]*?)<\/script>/);
             
             if (scriptMatch) {
@@ -740,70 +741,47 @@ function fetchQQGroupInfo() {
                 
                 try {
                     const jsonData = JSON.parse(scriptMatch[1]);
-                    console.log('解析__NUXT_DATA__成功:', jsonData);
+                    console.log('解析__NUXT_DATA__成功');
                     
-                    // 实时解析群信息
+                    // 查找包含groupinfo的元素
                     let groupInfoData = null;
                     
-                    // 遍历数组查找包含groupinfo的元素
                     for (let i = 0; i < jsonData.length; i++) {
                         const item = jsonData[i];
                         
                         if (typeof item === 'string') {
-                            // 尝试解析字符串
                             try {
                                 const parsedItem = JSON.parse(item);
                                 if (parsedItem.groupinfo) {
                                     groupInfoData = parsedItem;
-                                    console.log('从字符串中找到groupinfo');
                                     break;
                                 }
                             } catch (e) {
-                                console.log('当前字符串不是有效的JSON:', item.substring(0, 100) + '...');
+                                // 忽略解析失败的字符串
                             }
-                        } else if (typeof item === 'object' && item !== null) {
-                            if (item.groupinfo) {
-                                groupInfoData = item;
-                                console.log('直接找到groupinfo对象');
-                                break;
-                            }
+                        } else if (typeof item === 'object' && item !== null && item.groupinfo) {
+                            groupInfoData = item;
+                            break;
                         }
                     }
                     
                     if (groupInfoData && groupInfoData.groupinfo) {
-                        console.log('找到groupinfo数据:', groupInfoData.groupinfo);
+                        console.log('找到groupinfo数据');
                         
-                        // 提取群信息
                         const groupinfo = groupInfoData.groupinfo;
                         const groupcode = groupinfo.groupcode || groupinfo.code || '949639146';
                         
-                        // 构建正确的群头像URL
-                        const avatarUrl = `http://qh.qlogo.cn/gh/${groupcode}/${groupcode}/`;
-                        
-                        // 处理成员头像
-                        const memberAvatars = groupinfo.memberAvatars || [];
-                        const processedMemberAvatars = memberAvatars.map(avatar => {
-                            // 提取ek参数
-                            const ekMatch = avatar.match(/ek=([^&]+)/);
-                            if (ekMatch) {
-                                return `http://qh.qlogo.cn?ek=${ekMatch[1]}`;
-                            }
-                            return avatar;
-                        });
-                        
                         qqGroupData = {
-                            avatar: avatarUrl,
+                            avatar: `https://p.qlogo.cn/gh/${groupcode}/${groupcode}/`,
                             name: groupinfo.name || '服务器交流群',
                             code: groupcode,
                             memberCount: groupinfo.memberCnt || '未知',
-                            desc: groupinfo.description || '暂无简介', // 群简介
-                            tags: groupinfo.tags || [], // 群标签
-                            createtime: groupinfo.createtime || null, // UTC建群时间戳
-                            memberAvatars: processedMemberAvatars // 处理后的成员头像
+                            desc: groupinfo.description || '欢迎加入我们的服务器交流群！',
+                            tags: groupinfo.tags || [],
+                            createtime: groupinfo.createtime || null,
+                            memberAvatars: groupinfo.memberAvatars || []
                         };
                         
-                        console.log('解析后的群信息:', qqGroupData);
-                        // 实时显示群信息
                         displayQQGroupInfo(qqGroupData);
                     } else {
                         console.error('未找到群信息数据');
@@ -823,7 +801,6 @@ function fetchQQGroupInfo() {
             // 显示错误信息并使用默认数据
             if (qqGroupInfo) {
                 qqGroupInfo.innerHTML = '<div class="loading">获取群信息失败，显示默认信息</div>';
-                // 延迟显示默认信息
                 setTimeout(() => {
                     displayQQGroupInfo(null);
                 }, 1000);
