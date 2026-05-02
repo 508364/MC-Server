@@ -9,6 +9,24 @@
     --accent-hover: #45a049;
     --border: #e0e0e0;
     --card-bg: #ffffff;
+    /* 毛玻璃效果 - 亮色 */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-header: rgba(255, 255, 255, 0.6);
+    --glass-sidebar: rgba(255, 255, 255, 0.5);
+    --glass-content: rgba(255, 255, 255, 0.4);
+    --glass-overlay: rgba(255, 255, 255, 0.55);
+    /* 阴影 - 亮色 */
+    --shadow-normal: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.15);
+    /* 背景 - 亮色 */
+    --body-bg: #f0f0f0;
+    /* 卡片 - 亮色 */
+    --card-normal: rgba(255, 255, 255, 0.1);
+    --card-hover: rgba(255, 255, 255, 0.15);
+    /* 模态框 - 亮色 */
+    --modal-bg: rgba(0, 0, 0, 0.8);
+    --modal-btn: rgba(0, 0, 0, 0.5);
+    --modal-btn-hover: rgba(0, 0, 0, 0.7);
 }
 
 /* 暗色主题 */
@@ -21,6 +39,24 @@
     --accent-hover: #45a049;
     --border: #333333;
     --card-bg: #1e1e1e;
+    /* 毛玻璃效果 - 暗色 */
+    --glass-bg: rgba(0, 0, 0, 0.7);
+    --glass-header: rgba(0, 0, 0, 0.35);
+    --glass-sidebar: rgba(0, 0, 0, 0.3);
+    --glass-content: rgba(0, 0, 0, 0.15);
+    --glass-overlay: rgba(0, 0, 0, 0.45);
+    /* 阴影 - 暗色 */
+    --shadow-normal: 0 4px 20px rgba(0, 0, 0, 0.2);
+    --shadow-strong: 0 4px 25px rgba(0, 0, 0, 0.25);
+    /* 背景 - 暗色 */
+    --body-bg: #0a0a0a;
+    /* 卡片 - 暗色 */
+    --card-normal: rgba(0, 0, 0, 0.1);
+    --card-hover: rgba(0, 0, 0, 0.15);
+    /* 模态框 - 暗色 */
+    --modal-bg: rgba(0, 0, 0, 0.9);
+    --modal-btn: rgba(0, 0, 0, 0.5);
+    --modal-btn-hover: rgba(0, 0, 0, 0.8);
 }
 
 /* 全局样式 */
@@ -32,8 +68,8 @@
 
 body {
     font-family: 'Noto Sans SC', sans-serif;
-    background-color: #0a0a0a;
-    color: #e0e0e0;
+    background-color: var(--body-bg);
+    color: var(--text-primary);
     line-height: 1.6;
     transition: all 0.3s ease;
 }
@@ -45,15 +81,15 @@ body.theme-transition {
 
 /* 导航栏 */
 header {
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: var(--glass-header);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-normal);
     padding: 1rem 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border);
 }
 
 .container {
@@ -175,7 +211,7 @@ nav {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--modal-bg);
     animation: fadeIn 0.3s ease;
 }
 
@@ -201,7 +237,7 @@ nav {
     font-weight: bold;
     transition: 0.3s;
     z-index: 1001;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-btn);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -214,7 +250,7 @@ nav {
 .close:hover,
 .close:focus {
     color: #fff;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--modal-btn-hover);
     text-decoration: none;
     cursor: pointer;
     transform: scale(1.1);
@@ -226,7 +262,7 @@ nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-btn);
     color: white;
     border: none;
     border-radius: 50%;
@@ -263,7 +299,7 @@ nav {
 
 .modal-prev:hover,
 .modal-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: var(--modal-btn-hover);
     transform: translateY(-50%) scale(1.1);
 }
 
@@ -674,21 +710,23 @@ nav {
     margin-top: 2rem;
 }
 
+
+
 .info-card {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--card-normal);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-normal);
+    border: 1px solid var(--border);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .info-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-strong);
+    background-color: var(--card-hover);
 }
 
 .info-card h3 {
@@ -710,20 +748,20 @@ nav {
 }
 
 .address-card {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: var(--card-normal);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     padding: 1.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-normal);
+    border: 1px solid var(--border);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .address-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-strong);
+    background-color: var(--card-hover);
 }
 
 .address-card h3 {
@@ -783,7 +821,7 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--glass-overlay);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 0;
@@ -792,10 +830,10 @@ nav {
 .main-content .container {
     position: relative;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.15);
+    background: var(--glass-content);
     border-radius: 20px;
     padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border);
 }
 
 .content-wrapper {
@@ -816,12 +854,12 @@ nav {
 /* 左侧分类导航 */
 .sidebar {
     width: 250px;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--glass-sidebar);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: var(--shadow-normal);
+    border: 1px solid var(--border);
     padding: 1.5rem;
     position: sticky;
     top: 100px;
@@ -875,12 +913,12 @@ nav {
 
 .category-content {
     display: none;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: var(--glass-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 16px;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: var(--shadow-strong);
+    border: 1px solid var(--border);
     padding: 2rem;
     margin-bottom: 2rem;
 }
@@ -1154,6 +1192,11 @@ footer p {
     to { transform: rotate(360deg); }
 }
 
+/* 基础移动设备优化 */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
 /* 响应式设计 */
 @media (max-width: 992px) {
     .content-wrapper {
@@ -1179,6 +1222,7 @@ footer p {
     }
 }
 
+/* 中等屏幕设备 */
 @media (max-width: 768px) {
     /* 主页横幅 */
     .hero h1 {
@@ -1320,7 +1364,270 @@ footer p {
         justify-content: center;
     }
 
-    /* QQ群信息模态框 */
+    /* 主要内容区域优化 */
+    .main-content {
+        padding: 1.5rem 0;
+        min-height: calc(100vh - 80px);
+    }
+
+    .main-content .container {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .content-wrapper {
+        max-height: none;
+        overflow-y: visible;
+        gap: 1.5rem;
+        padding-bottom: 0;
+    }
+
+    /* 侧边栏优化 */
+    .sidebar {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .sidebar h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    /* 图库图片优化 */
+    .gallery-item {
+        aspect-ratio: 4/3;
+    }
+
+    /* Markdown内容字体大小调整 */
+    .category-content h1 {
+        font-size: 1.5rem;
+    }
+
+    .category-content h2 {
+        font-size: 1.3rem;
+    }
+
+    .category-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .category-content li,
+    .category-content p {
+        font-size: 0.95rem;
+    }
+
+    /* 模态框优化 */
+    .modal-content {
+        margin: 1rem;
+        max-width: calc(100vw - 2rem);
+    }
+
+    .cookie-content,
+    .qq-content,
+    .ranking-content {
+        margin: 0.5rem;
+        padding: 1.25rem;
+    }
+
+    /* 按钮触摸区域优化 */
+    button,
+    .category-item,
+    .copy-btn,
+    .download-btn,
+    .qq-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* 小屏幕设备 */
+@media (max-width: 480px) {
+    /* 导航栏 */
+    .server-name {
+        font-size: 1rem;
+    }
+
+    .nav-buttons {
+        gap: 0.3rem;
+    }
+
+    /* 分类导航 */
+    .category-item {
+        min-width: 100px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    /* 内容区域 */
+    .category-content {
+        padding: 1rem;
+    }
+
+    .category-content h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    /* 主要内容区域 */
+    .main-content {
+        padding: 1rem 0;
+    }
+
+    .main-content .container {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    /* 侧边栏 */
+    .sidebar {
+        padding: 0.75rem;
+    }
+
+    /* 信息卡片 */
+    .info-card,
+    .address-card {
+        padding: 1rem;
+    }
+
+    .info-card h3,
+    .address-card h3 {
+        font-size: 1rem;
+    }
+
+    .info-card p,
+    .address-card p {
+        font-size: 0.9rem;
+    }
+
+    /* 下载按钮 */
+    .download-btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+
+    /* QQ群按钮 */
+    .qq-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        width: 100%;
+    }
+
+    /* 网格间距调整 */
+    .info-grid,
+    .address-grid,
+    .gallery-grid {
+        gap: 1rem;
+    }
+
+    /* Markdown内容进一步优化 */
+    .category-content h1 {
+        font-size: 1.35rem;
+    }
+
+    .category-content h2 {
+        font-size: 1.2rem;
+    }
+
+    .category-content h3 {
+        font-size: 1rem;
+    }
+
+    .category-content li,
+    .category-content p {
+        font-size: 0.9rem;
+    }
+
+    .category-content ul {
+        margin-left: 1rem;
+    }
+
+    /* 模态框进一步优化 */
+    .cookie-content,
+    .qq-content,
+    .ranking-content {
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    .cookie-comparison {
+        font-size: 0.85rem;
+    }
+
+    .cookie-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* 页脚 */
+    footer {
+        padding: 1.5rem 0;
+        font-size: 0.85rem;
+    }
+}
+
+/* 横屏设备优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+        padding: 3rem 0;
+        min-height: 300px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .content-wrapper {
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+}
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    :root {
+        --accent: #0066cc;
+    }
+
+    .sidebar,
+    .category-content,
+    .main-content .container {
+        border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* 减少动画模式支持 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* 深色模式系统偏好 */
+@media (prefers-color-scheme: dark) {
+    body:not([data-theme]) {
+        /* 可以添加默认深色模式样式 */
+    }
+}
+
+/* 打印样式 */
+@media print {
+    .sidebar,
+    .nav-buttons,
+    footer {
+        display: none;
+    }
+
+    .content-wrapper {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* QQ群信息模态框 - 移动设备补充 */
+@media (max-width: 768px) {
     .qq-content {
         padding: 1.5rem;
         margin: 1rem;
@@ -1357,12 +1664,6 @@ footer p {
         font-size: 0.9rem;
     }
 
-    /* Cookie模态框 */
-    .cookie-content {
-        padding: 1.5rem;
-        margin: 1rem;
-    }
-
     .cookie-buttons {
         flex-direction: column;
         gap: 0.8rem;
@@ -1374,7 +1675,6 @@ footer p {
         padding: 0.8rem;
     }
 
-    /* 页脚 */
     .footer-content {
         flex-direction: column;
         gap: 1rem;
@@ -1385,30 +1685,11 @@ footer p {
         font-size: 14px;
     }
 
-    /* Cookie设置按钮 */
     .cookie-settings-btn {
         font-size: 12px;
         padding: 6px 12px;
     }
 
-    /* 整合包下载 */
-    .modpack {
-        padding: 2rem 0;
-    }
-
-    .download-section {
-        padding: 1.5rem;
-    }
-
-    /* 服务器信息和地址 */
-    .server-info,
-    .server-addresses {
-        padding: 2rem 0;
-    }
-
-
-
-    /* 图片预览模态框 */
     .modal-content {
         max-width: 98%;
         max-height: 90%;
