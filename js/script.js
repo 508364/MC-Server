@@ -8,9 +8,9 @@ if (savedTheme) {
     body.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 } else {
-    // 默认使用深色主题
-    body.setAttribute('data-theme', 'dark');
-    updateThemeIcon('dark');
+    // 默认使用浅色主题
+    body.setAttribute('data-theme', 'light');
+    updateThemeIcon('light');
 }
 
 themeToggle.addEventListener('click', () => {
