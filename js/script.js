@@ -7,6 +7,10 @@ const savedTheme = localStorage.getItem('theme');
 if (savedTheme) {
     body.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
+} else {
+    // 默认使用深色主题
+    body.setAttribute('data-theme', 'dark');
+    updateThemeIcon('dark');
 }
 
 themeToggle.addEventListener('click', () => {
@@ -304,12 +308,44 @@ function triggerImageDownload() {
                     sha: file.sha // GitHub API返回的文件SHA值
                 }));
                 
-                // 启动多线程下载图片
-                console.log('触发多线程下载图片');
-                downloadImages(imageUrls);
-                
-                // 显示图片为背景
-                displayImagesAsBackground(imageUrls);
+                // 检查cookie同意状态
+                const consent = localStorage.getItem('cookieConsent');
+                if (consent === 'accepted') {
+                    // 检查图片缓存
+                    const cachedData = getImageCache();
+                    if (cachedData) {
+                        // 检查缓存是否需要更新
+                        const needsUpdate = imageUrls.some(img => {
+                            const cachedImg = cachedData.images.find(cacheImg => cacheImg.name === img.name);
+                            return !cachedImg || cachedImg.sha !== img.sha;
+                        });
+
+                        if (!needsUpdate) {
+                            console.log('相册使用缓存的图片信息');
+                            // 直接从缓存加载图片
+                            displayImagesAsBackground(cachedData.images);
+                        } else {
+                            console.log('相册图片有更新，更新缓存');
+                            storeImageCache(imageUrls);
+                            // 启动多线程下载图片
+                            downloadImages(imageUrls);
+                            // 显示图片为背景
+                            displayImagesAsBackground(imageUrls);
+                        }
+                    } else {
+                        // 首次缓存
+                        console.log('相册首次缓存图片信息');
+                        storeImageCache(imageUrls);
+                        // 启动多线程下载图片
+                        downloadImages(imageUrls);
+                        // 显示图片为背景
+                        displayImagesAsBackground(imageUrls);
+                    }
+                } else {
+                    // 没有cookie同意，不使用缓存，直接显示
+                    console.log('未同意cookie，直接加载相册图片');
+                    displayImagesAsBackground(imageUrls);
+                }
             }
         })
         .catch(error => {
@@ -443,6 +479,12 @@ function showCategory(category) {
     if (category === 'ranking') {
         console.log('切换到排行榜分类，自动加载内容');
         loadRankingContent();
+    }
+    
+    // 如果是相册分类，自动加载图片
+    if (category === 'gallery') {
+        console.log('切换到相册分类，自动加载图片');
+        triggerImageDownload();
     }
     
     // 自动滚动对齐到顶部
